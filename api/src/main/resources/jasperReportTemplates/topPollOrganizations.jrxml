@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="topPollOrganizations" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="36214bd0-b627-4e74-b639-70916a9a2604">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="poll_id" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select o.name_ru as organization, count(c.id) as candidate_count
+from candidate_info c
+  left join (select finalTable.* from (
+                                        select case when candidate_choices.polling_area_id = @prevPollingAreaId then @cc := @cc + 1 else @cc := 1 end as counter,
+                                          candidate_choices.poll_id, @prevPollingAreaId := candidate_choices.polling_area_id as polling_area_id,
+                                          candidate_choices.candidate_id,
+                                          candidate_choices.choices
+                                        from (select duc.poll_id, duc.candidate_id, @prevPollingAreaId := duc.polling_area_id polling_area_id,
+                                                                                    count(duc.candidate_id) as choices
+                                              from deputy_user_choice duc, (SELECT @prevPollingAreaId:=0) t1
+                                              where duc.poll_id=1
+                                              group by duc.candidate_id, duc.polling_area_id
+                                              order by polling_area_id, choices desc) as candidate_choices, (SELECT @cc:=0) t2) as finalTable
+    LEFT JOIN polling_area pa on pa.id=finalTable.polling_area_id
+  where counter < (pa.commission_member_count + 1) order by finalTable.polling_area_id, finalTable.choices desc, finalTable.counter) as d on c.id = d.candidate_id
+  left join organization o on c.organization_id = o.id
+where d.poll_id = $P{poll_id}
+group by o.id
+order by candidate_count desc]]>
+	</queryString>
+	<field name="organization" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="organization"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="organization"/>
+	</field>
+	<field name="candidate_count" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="candidate_count"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="0" width="595" height="22" uuid="defcdfc4-9685-4058-8fab-14ca4fce2f57"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isBold="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT} + ") " + $F{organization} + " - " + $F{candidate_count} + " человек"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

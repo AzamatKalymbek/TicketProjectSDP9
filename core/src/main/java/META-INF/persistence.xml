@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit firstname="NewPersistenceUnit">
+        <class>kz.teamvictus.poll.core.model.CandidateInfoModel</class>
+        <class>kz.teamvictus.poll.core.model.CommissionJobTypeModel</class>
+        <class>kz.teamvictus.poll.core.model.CommissionTypeModel</class>
+        <class>kz.teamvictus.poll.core.model.DeputyUserModel</class>
+        <class>kz.teamvictus.poll.core.model.EducationDegreeModel</class>
+        <class>kz.teamvictus.poll.core.model.NationalityModel</class>
+        <class>kz.teamvictus.poll.core.model.OrganizationModel</class>
+        <class>kz.teamvictus.poll.core.model.OrganizationTypeModel</class>
+        <class>kz.teamvictus.poll.core.model.PollModel</class>
+        <class>kz.teamvictus.poll.core.model.PollingAreaModel</class>
+        <class>kz.teamvictus.poll.core.model.RegionModel</class>
+        <properties>
+            <property firstname="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/core_db"/>
+            <property firstname="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property firstname="hibernate.connection.url" value="jdbc:mysql://localhost:3306/core_db"/>
+            <property firstname="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+            <property firstname="openjpa.ConnectionURL" value="jdbc:mysql://localhost:3306/core_db"/>
+            <property firstname="openjpa.ConnectionDriverName" value="com.mysql.jdbc.Driver"/>
+            <property firstname="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/core_db"/>
+            <property firstname="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit firstname="persistenceUnit"/>
+</persistence>

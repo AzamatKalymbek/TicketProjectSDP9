@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26a841da-712a-4896-85b6-6d5a74788b55">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="546"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="440"/>
+	<parameter name="poll_id" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT p.*, r.name_ru as region
+FROM polling_area p
+LEFT JOIN region r
+ON p.region_id = r.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="number" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="number"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="name_kz" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name_kz"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="name_ru" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name_ru"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="address" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="address"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="contact" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="contact"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="region_id" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="region_id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="commission_member_count" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="commission_member_count"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="is_disabled" class="java.lang.Boolean">
+		<property name="com.jaspersoft.studio.field.label" value="is_disabled"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="region" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="region"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="region"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="560" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="20" width="555" height="20" uuid="77d8c315-d552-4139-b235-5f2b9d034d2b"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format(new Date()) +" г."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="40" width="555" height="30" uuid="5bf9fffb-1c01-4014-a5c3-99f946717231"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Счетной комиссии XXVI-й сессии маслихата города Алматы V-гo созыва «О выборах членов избирательных комиссий города Алматы»]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="130" width="555" height="20" uuid="a1111090-e274-4bcf-a154-ee2aca896beb"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Недействительные бюллетени 0 шт.]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="160" width="555" height="40" uuid="7e234597-e6e4-4d50-891e-c684f0d208e4"/>
+				<subreportParameter name="poll_id">
+					<subreportParameterExpression><![CDATA[$P{poll_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="polling_area_id">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["jasperReportTemplates/pollingAreaCandidates.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="0" y="0" width="555" height="20" uuid="4407f2ef-72bd-4375-9516-9686f103e4af"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Протокол: №" + $F{number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="80" width="555" height="30" uuid="7e4325b8-8401-48b7-affa-4ebb4f2721cc"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["На основе представленных политическими партиями кандидатур, проведено рейтинговое голосование по выборам членов участковой избирательной комиссии №" + $F{number} + " города " + $F{region} + "."]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="110" width="555" height="20" uuid="bc5b3d3d-72c0-4be8-970e-8b11ae190d77"/>
+				<subreportParameter name="poll_id">
+					<subreportParameterExpression><![CDATA[$P{poll_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="polling_area_id">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["jasperReportTemplates/distinctDeputyChoicesCount.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement x="0" y="160" width="555" height="20" uuid="82ddf2b0-7de1-4f33-9a23-34f0476c20d4"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Результаты рейтингового голосования]]></text>
+			</staticText>
+			<textField>
+				<reportElement positionType="Float" x="0" y="200" width="555" height="30" uuid="f25c258f-a9cd-4c1a-8be7-dd537bad4e2f"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["По результатам рейтингового голосования считать избранными членами участковой избирательной комиссии №" + $F{number} + " города " + $F{region} + " следующих кандидатов:"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement positionType="Float" x="0" y="230" width="555" height="20" uuid="135d7d3b-e111-4342-9b31-016067bd2071"/>
+				<subreportParameter name="poll_id">
+					<subreportParameterExpression><![CDATA[$P{poll_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="polling_area_id">
+					<subreportParameterExpression><![CDATA[$F{id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="commission_member_count">
+					<subreportParameterExpression><![CDATA[$F{commission_member_count}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["jasperReportTemplates/topPollingAreaCandidates.jasper"]]></subreportExpression>
+			</subreport>
+			<staticText>
+				<reportElement positionType="Float" x="0" y="250" width="555" height="80" uuid="f1ae4bb1-d896-401f-828c-30e72964a939"/>
+				<textElement textAlignment="Left" markup="html">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Председатель счетной комиссии <br>
+В. Булекбаев <br> <br>
+Член счетной комиссии]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

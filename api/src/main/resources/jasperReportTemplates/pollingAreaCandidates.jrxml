@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pollingAreaCandidates" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1b17d17a-1801-48ac-866b-beea23b37845">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<parameter name="poll_id" class="java.lang.Long"/>
+	<parameter name="polling_area_id" class="java.lang.Integer"/>
+	<queryString language="SQL">
+		<![CDATA[select 
+c.firstname, 
+c.lastname, 
+c.middlename,
+o.name_ru
+from candidate_info c
+left join organization o
+on c.organization_id = o.id
+where c.poll_id = $P{poll_id}
+and c.polling_area_id = $P{polling_area_id}]]>
+	</queryString>
+	<field name="firstname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="firstname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="candidate_info"/>
+	</field>
+	<field name="lastname" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="lastname"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="candidate_info"/>
+	</field>
+	<field name="middlename" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="middlename"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="candidate_info"/>
+	</field>
+	<field name="name_ru" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="name_ru"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="organization"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="34" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="0" width="500" height="20" uuid="e82f50d5-c02c-4a9e-9e4d-7acae4948e28"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{firstname} != null ? $F{firstname} : "") + " " + ($F{lastname} != null ? $F{lastname} : "") + " " + ($F{middlename} != null ? $F{middlename} : "")]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="-20" y="10" width="500" height="20" uuid="7f9f54f8-3231-4507-b0c7-5673f048728a"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name_ru}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="490" y="6" width="20" height="19" uuid="ee507851-304a-426e-8cdb-28571dffb60a"/>
+			</rectangle>
+			<line>
+				<reportElement x="-20" y="30" width="500" height="1" uuid="4a24966f-b821-48c5-a648-317728a96dc7"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

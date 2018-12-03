@@ -1,0 +1,14 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea/
+*.iml
+lib/
+/core/core.iml
+/core/target/
+/security/security.iml
+/security/target/
+/api/api.iml
+/api/target/
+/utils/target/
+/logs/
+/api/logs/
+/utils/UtilsLib.iml

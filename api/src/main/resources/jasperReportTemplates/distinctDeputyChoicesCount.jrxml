@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="distinctDeputyChoicesCount" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ca600268-5a49-485a-86e0-88e8148ca36f">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="poll_id" class="java.lang.Long"/>
+	<parameter name="polling_area_id" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[select count(dd.deputy_user_id) as deputy_user_count
+from (select distinct d.deputy_user_id as deputy_user_id 
+	from deputy_user_choice d 
+	where d.poll_id = $P{poll_id} and d.polling_area_id = $P{polling_area_id}) dd]]>
+	</queryString>
+	<field name="deputy_user_count" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="deputy_user_count"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="1" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="-19" width="595" height="20" uuid="60947a10-5081-411a-bc36-a6011c043b97"/>
+				<textElement>
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["В голосовании приняли участие " + $F{deputy_user_count} + " депутатов."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

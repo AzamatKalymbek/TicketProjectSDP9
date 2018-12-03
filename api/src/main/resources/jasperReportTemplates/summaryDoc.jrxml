@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_A4" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="26a841da-712a-4896-85b6-6d5a74788b55">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter (2)"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="546"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="440"/>
+	<parameter name="poll_id" class="java.lang.Long"/>
+	<queryString language="SQL">
+		<![CDATA[select 
+sum(p.commission_member_count) as commission_member_count,
+count(p.id) as polling_area_count 
+from polling_area p]]>
+	</queryString>
+	<field name="commission_member_count" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="commission_member_count"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="polling_area"/>
+	</field>
+	<field name="polling_area_count" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="polling_area_count"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="478" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="60" width="555" height="20" uuid="77d8c315-d552-4139-b235-5f2b9d034d2b"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="12" isBold="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("dd.MM.yyyy").format(new Date()) +" г."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="40" uuid="2ab0f21a-c3f3-4dd7-a877-dbfebd59c658"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[счетной комиссии XXVI–й сессии  маслихата города Алматы V-го созыва об итогах рейтингового голосования по выборам членов избирательных комиссий города Алматы]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="131bf515-8bce-407f-a975-7cac7f8d3d66"/>
+				<textElement textAlignment="Center">
+					<font fontName="DejaVu Sans" size="12" isBold="true" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Протокол]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="80" width="555" height="20" uuid="c870f251-beab-4222-b695-459ee96e3d9a"/>
+				<textElement textAlignment="Right">
+					<font fontName="DejaVu Sans" size="12" isBold="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Зал №1 Акимата города Алматы]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="555" height="160" uuid="b005674c-a349-4937-98a0-7c38a653101e"/>
+				<textElement textAlignment="Left">
+					<font fontName="DejaVu Sans" size="12" isBold="false" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Счетная комиссия XXVI – й сессии маслихата города Алматы V-го  созыва в составе:
+1.	___________________________________________________
+2.	___________________________________________________
+3.	___________________________________________________
+4.	___________________________________________________
+5.	___________________________________________________
+6.	___________________________________________________
+7.	___________________________________________________
+8.	___________________________________________________
+9.	___________________________________________________
+10.	___________________________________________________]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="290" width="555" height="90" uuid="8b2b546b-7926-4654-b991-e2b3d814b109"/>
+				<textElement textAlignment="Justified">
+					<font fontName="DejaVu Sans" size="12" isStrikeThrough="false" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["по итогам рейтингового голосования, проведенного по выборам членов избирательных комиссий города Алматы, после проведения подсчета голосов по избирательным бюллетеням установила, что в " + $F{polling_area_count} + " избирательных комиссиях города, в  соответствии с предложениями политических партий и общественных объединений в члены территориальной избирательной комиссии города, окружных избирательных комиссий,  а также участковых комиссий избрано " + $F{commission_member_count} + " человек от:"]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="370" width="555" height="30" uuid="d3d0a405-e0df-44cf-993f-ff59f723926c"/>
+				<subreportParameter name="poll_id">
+					<subreportParameterExpression><![CDATA[$P{poll_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["jasperReportTemplates/topPollOrganizations.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
