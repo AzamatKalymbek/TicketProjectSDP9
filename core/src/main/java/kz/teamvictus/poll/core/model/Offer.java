@@ -14,7 +14,6 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 public class Offer {
-
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id", nullable = false,updatable=false, insertable=true)
@@ -22,14 +21,21 @@ public class Offer {
 
    @Basic
    @Column(name = "ticket_id")
-   private Integer ticketId;
+   private Long ticketId;
 
    @Basic
    @Column(name = "user_id")
-   private Integer userId;
+   private Long userId;
+
+   @Basic
+   @Column(name = "duration")
+   private Integer duration;
+
+   @Basic
+   @Column(name = "price")
+   private Double price;
 
    @Basic
    @Column(name = "offer_status_id")
    private Integer offerStatusId;
-
 }

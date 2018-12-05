@@ -24,6 +24,10 @@ public class Ticket {
    private Integer categoryId;
 
    @Basic
+   @Column(name = "user_id")
+   private Integer userId;
+
+   @Basic
    @Column(name = "title")
    private String title;
 

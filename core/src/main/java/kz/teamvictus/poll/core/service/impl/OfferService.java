@@ -3,6 +3,7 @@ package kz.teamvictus.poll.core.service.impl;
 import kz.teamvictus.poll.core.model.Offer;
 import kz.teamvictus.poll.core.repository.OfferJpaRepo;
 import kz.teamvictus.poll.core.service.IOfferService;
+import kz.teamvictus.poll.core.service.IUserTokenService;
 import kz.teamvictus.utils.error.ErrorCode;
 import kz.teamvictus.utils.error.InternalException;
 import kz.teamvictus.utils.error.InternalExceptionHelper;
@@ -18,6 +19,8 @@ public class OfferService implements IOfferService {
    private static final Logger LOGGER = LoggerFactory.getLogger(OfferService.class);
    private final InternalExceptionHelper IE_HELPER = new InternalExceptionHelper(this.toString());
 
+   @Autowired
+   IUserTokenService iUserTokenService;
    @Autowired
    private OfferJpaRepo offerJpaRepo;
 
@@ -42,13 +45,26 @@ public class OfferService implements IOfferService {
    }
 
    @Override
+   public List<Offer> getAllByTicketIdAndUserId(Long ticketId, String userToken) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+         return offerJpaRepo.findAllByUserIdAndTicketId(userId, ticketId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllByTicketIdAndUserId", e);
+      }
+   }
+
+   @Override
    public Offer updateOffer(Long id, Offer offer) throws InternalException {
       try {
          Offer currentOffer = offerJpaRepo.getOne(id);
          currentOffer.setId(offer.getId());
-         currentOffer.setOfferStatusId(offer.getOfferStatusId());
+         currentOffer.setDuration(offer.getDuration());
          currentOffer.setTicketId(offer.getTicketId());
+         currentOffer.setPrice(offer.getPrice());
          currentOffer.setUserId(offer.getUserId());
+         currentOffer.setOfferStatusId(offer.getOfferStatusId());
          return offerJpaRepo.saveAndFlush(currentOffer);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);

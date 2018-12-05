@@ -3,6 +3,7 @@ package kz.teamvictus.poll.core.service.impl;
 import kz.teamvictus.poll.core.model.Ticket;
 import kz.teamvictus.poll.core.repository.TicketJpaRepo;
 import kz.teamvictus.poll.core.service.ITicketService;
+import kz.teamvictus.poll.core.service.IUserTokenService;
 import kz.teamvictus.utils.error.ErrorCode;
 import kz.teamvictus.utils.error.InternalException;
 import kz.teamvictus.utils.error.InternalExceptionHelper;
@@ -18,6 +19,8 @@ public class TicketService implements ITicketService {
    private static final Logger LOGGER = LoggerFactory.getLogger(TicketService.class);
    private final InternalExceptionHelper IE_HELPER = new InternalExceptionHelper(this.toString());
 
+   @Autowired
+   private IUserTokenService iUserTokenService;
    @Autowired
    private TicketJpaRepo ticketJpaRepo;
 
@@ -38,6 +41,30 @@ public class TicketService implements ITicketService {
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicket", e);
+      }
+   }
+
+   @Override
+   public List<Ticket> getAllTicketByUserId(String userToken) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+
+         return ticketJpaRepo.findAllByUserId(Math.toIntExact(userId));
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicketByUserId", e);
+      }
+   }
+
+   @Override
+   public Ticket getTicketByIdAndUserId(String userToken, Long ticketId) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+
+         return ticketJpaRepo.findByUserIdAndId(Math.toIntExact(userId), ticketId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getTicketByIdAndUserId", e);
       }
    }
 
@@ -67,4 +94,6 @@ public class TicketService implements ITicketService {
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:addTicket", e);
       }
    }
+
+
 }

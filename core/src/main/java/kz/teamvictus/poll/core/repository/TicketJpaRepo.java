@@ -5,6 +5,11 @@ import kz.teamvictus.poll.core.model.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TicketJpaRepo extends JpaRepository<Ticket, Long> {
+   Ticket findByUserIdAndId(Integer userId, Long id);
+   List<Ticket> findAllByUserId(Integer userId);
+
 }
