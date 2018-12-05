@@ -96,7 +96,7 @@ public class ExpertController extends CommonService {
 
    // - эксперт создает сообщение (POST /expert/message)
    @PostMapping("/message")
-   public ResponseEntity<?> saveTicket(@Valid @RequestBody TicketMessage ticketMessage){
+   public ResponseEntity<?> saveTicketMessage(@Valid @RequestBody TicketMessage ticketMessage){
       try {
          return builder(success(iTicketMessageService.addTicketMessage(ticketMessage)));
       } catch (InternalException e) {
