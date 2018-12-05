@@ -37,5 +37,5 @@ public class Offer {
 
    @Basic
    @Column(name = "offer_status_id")
-   private Integer offerStatusId;
+   private Long offerStatusId;
 }

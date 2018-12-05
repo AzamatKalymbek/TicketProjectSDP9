@@ -45,13 +45,34 @@ public class OfferService implements IOfferService {
    }
 
    @Override
-   public List<Offer> getAllByTicketIdAndUserId(Long ticketId, String userToken) throws InternalException {
+   public List<Offer> getByTicketId(Long ticketId) throws InternalException {
       try {
-         Long userId = iUserTokenService.getUserIdFromToken(userToken);
-         return offerJpaRepo.findAllByUserIdAndTicketId(userId, ticketId);
+         return offerJpaRepo.findByTicketId( ticketId);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
-         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllByTicketIdAndUserId", e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getByTicketId", e);
+      }
+   }
+
+   @Override
+   public Offer getByUserIdAndTicketId(String userToken, Long ticketId) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+         return offerJpaRepo.findByUserIdAndTicketId(userId, ticketId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllByUserIdAndTicketId", e);
+      }
+   }
+
+   @Override
+   public List<Offer> getAllByUserIdAndStatusId(String userToken, Long statusId) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+         return offerJpaRepo.findAllByUserIdAndOfferStatusId(userId, statusId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllByUserIdAndStatusId", e);
       }
    }
 

@@ -37,7 +37,7 @@ public class Ticket {
 
    @Basic
    @Column(name = "ticket_status_id")
-   private Integer ticketStatusId;
+   private Long ticketStatusId;
 
    @Basic
    @Column(name = "created_at")

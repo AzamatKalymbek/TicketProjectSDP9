@@ -19,6 +19,7 @@ import javax.validation.Valid;
 
 import static kz.teamvictus.utils.Constants.TOKEN_PREFIX;
 
+// ClientController: /client - основной маршрут
 @RestController
 @RequestMapping("/client")
 public class ClientController extends CommonService {
@@ -32,6 +33,7 @@ public class ClientController extends CommonService {
    @Autowired
    IOfferService offerService;
 
+   // - список тикетов клиента (GET /client/ticket/)
    @GetMapping("/ticket")
    public ResponseEntity<?> getTicketList(HttpServletRequest req){
       try {
@@ -43,6 +45,7 @@ public class ClientController extends CommonService {
       }
    }
 
+   // - клиент берёт тикет (GET /client/ticket/{ticketId})
    @GetMapping("/ticket/{ticketId}")
    public ResponseEntity<?> getTicket(HttpServletRequest req, @PathVariable(value = "ticketId") Long ticketId){
       try {
@@ -54,6 +57,7 @@ public class ClientController extends CommonService {
       }
    }
 
+   // - клиент создает тикет (POST /client/ticket/)
    @PostMapping("/ticket")
    public ResponseEntity<?> saveTicket(@Valid @RequestBody Ticket ticket){
       try {
@@ -64,6 +68,7 @@ public class ClientController extends CommonService {
       }
    }
 
+   // - клиент обновляет тикет (PATCH /client/ticket/)
    @PatchMapping("/ticket")
    public ResponseEntity<?> updateTicket(@Valid @RequestBody Ticket ticket){
       try {
@@ -74,19 +79,19 @@ public class ClientController extends CommonService {
       }
    }
 
+   // - клиент берёт список офферов для тикета (GET /client/ticket/{ticketId}/offer)
    @GetMapping("/ticket/{ticketId}/offer")
-   public ResponseEntity<?> getClientOffer(HttpServletRequest req, @PathVariable(value = "ticketId") Long ticketId){
+   public ResponseEntity<?> getClientOffer(@PathVariable(value = "ticketId") Long ticketId){
       try {
-         String userToken = req.getHeader("Authorization").replace(TOKEN_PREFIX,"");
-         return builder(success(offerService.getAllByTicketIdAndUserId(ticketId, userToken)));
+         return builder(success(offerService.getByTicketId(ticketId)));
       } catch (InternalException e) {
          LOGGER.error(e.getMessage(), e);
          return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));
       }
    }
 
-
-   @PatchMapping("/ticket/{ticketId}/offer")
+   // - клиент обновляет оффер (PATCH /client/ticket/{ticketId}/offer)
+   @PatchMapping("/ticket/offer")
    public ResponseEntity<?> updateClientOffer(@Valid @RequestBody Offer offer){
       try {
          return builder(success(offerService.updateOffer(offer.getId(), offer)));

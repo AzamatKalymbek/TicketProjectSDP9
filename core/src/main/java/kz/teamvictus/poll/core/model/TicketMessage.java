@@ -21,7 +21,7 @@ public class TicketMessage {
 
    @Basic
    @Column(name = "ticket_id")
-   private Integer ticketId;
+   private Long ticketId;
 
    @Basic
    @Column(name = "sender_id")

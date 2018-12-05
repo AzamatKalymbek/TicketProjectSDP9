@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface OfferJpaRepo extends JpaRepository<Offer, Long> {
 
-   List<Offer> findAllByUserIdAndTicketId(Long userId, Long ticketId);
+   Offer findByUserIdAndTicketId(Long userId, Long ticketId);
+   List<Offer> findByTicketId(Long ticketId);
+   List<Offer> findAllByUserIdAndOfferStatusId(Long userId, Long statusId);
 }

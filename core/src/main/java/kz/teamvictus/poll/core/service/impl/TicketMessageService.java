@@ -45,6 +45,16 @@ public class TicketMessageService implements ITicketMessageService {
    }
 
    @Override
+   public List<TicketMessage> getAllTicketMessageByTicketId(Long ticketId) throws InternalException {
+      try {
+         return ticketMessageJpaRepo.findAllByTicketId(ticketId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicketMessageByTicketId", e);
+      }
+   }
+
+   @Override
    public TicketMessage updateTicketMessage(Long id, TicketMessage ticketMessage) throws InternalException {
       try {
          TicketMessage currentTicketMessage = ticketMessageJpaRepo.getOne(id);

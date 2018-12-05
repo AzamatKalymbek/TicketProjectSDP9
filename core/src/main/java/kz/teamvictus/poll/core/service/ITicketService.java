@@ -11,6 +11,7 @@ public interface ITicketService {
    Ticket getTicketById(Long id) throws InternalException;
    List<Ticket> getAllTicket() throws InternalException;
    List<Ticket> getAllTicketByUserId(String userToken) throws InternalException;
+   List<Ticket> getAllTicketByUserIdAndTicketStatusId(String userToken, Long statusId) throws InternalException;
    Ticket getTicketByIdAndUserId(String userToken, Long id) throws InternalException;
    Ticket updateTicket(Long id, Ticket ticket) throws InternalException;
    Ticket addTicket(Ticket ticket) throws InternalException;

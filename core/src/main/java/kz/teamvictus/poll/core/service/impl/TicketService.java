@@ -57,6 +57,18 @@ public class TicketService implements ITicketService {
    }
 
    @Override
+   public List<Ticket> getAllTicketByUserIdAndTicketStatusId(String userToken, Long statusId) throws InternalException {
+      try {
+         Long userId = iUserTokenService.getUserIdFromToken(userToken);
+
+         return ticketJpaRepo.findAllByUserIdAndTicketStatusId(Math.toIntExact(userId), statusId);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicketByUserIdAndTicketStatusId", e);
+      }
+   }
+
+   @Override
    public Ticket getTicketByIdAndUserId(String userToken, Long ticketId) throws InternalException {
       try {
          Long userId = iUserTokenService.getUserIdFromToken(userToken);
@@ -74,6 +86,7 @@ public class TicketService implements ITicketService {
          Ticket currentTicket = ticketJpaRepo.getOne(id);
          currentTicket.setId(ticket.getId());
          currentTicket.setCategoryId(ticket.getCategoryId());
+         currentTicket.setUserId(ticket.getUserId());
          currentTicket.setCreatedAt(ticket.getCreatedAt());
          currentTicket.setText(ticket.getText());
          currentTicket.setTicketStatusId(ticket.getTicketStatusId());
