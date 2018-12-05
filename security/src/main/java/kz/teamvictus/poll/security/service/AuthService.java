@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 public class AuthService implements IAuthService {
