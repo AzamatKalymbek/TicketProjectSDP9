@@ -59,9 +59,10 @@ public class ClientController extends CommonService {
 
    // - клиент создает тикет (POST /client/ticket/)
    @PostMapping("/ticket")
-   public ResponseEntity<?> saveTicket(@Valid @RequestBody Ticket ticket){
+   public ResponseEntity<?> saveTicket(HttpServletRequest req, @Valid @RequestBody Ticket ticket){
       try {
-         return builder(success(iTicketService.addTicket(ticket)));
+         String userToken = req.getHeader("Authorization").replace(TOKEN_PREFIX,"");
+         return builder(success(iTicketService.addTicket(userToken, ticket)));
       } catch (InternalException e) {
          LOGGER.error(e.getMessage(), e);
          return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));
@@ -81,8 +82,11 @@ public class ClientController extends CommonService {
 
    // - клиент берёт список офферов для тикета (GET /client/ticket/{ticketId}/offer)
    @GetMapping("/ticket/{ticketId}/offer")
-   public ResponseEntity<?> getClientOffer(@PathVariable(value = "ticketId") Long ticketId){
+   public ResponseEntity<?> getClientOffer(@PathVariable(value = "ticketId") Long ticketId, Long status){
       try {
+         if (status != null) {
+            return builder(success(offerService.getOfferByTicketIdAndStatusId(ticketId, status)));
+         }
          return builder(success(offerService.getByTicketId(ticketId)));
       } catch (InternalException e) {
          LOGGER.error(e.getMessage(), e);

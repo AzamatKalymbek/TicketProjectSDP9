@@ -14,4 +14,8 @@ public interface IOfferService {
 
    Offer updateOffer(Long id, Offer offer) throws InternalException;
    Offer addOffer(Offer offer) throws InternalException;
+
+   Offer offerTicket(String userToken, Offer offer) throws InternalException;
+   Offer getOfferByTicketIdAndStatusId(Long ticketId, Long status) throws InternalException;
+
 }

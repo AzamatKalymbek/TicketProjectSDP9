@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ITicketStatusService {
    TicketStatus getTicketStatusById(Long id) throws InternalException;
+   TicketStatus getTicketStatusByCode(String code) throws InternalException;
    List<TicketStatus> getAllTicketStatus() throws InternalException;
    TicketStatus updateTicketStatus(Long id, TicketStatus ticketStatus) throws InternalException;
    TicketStatus addTicketStatus(TicketStatus ticketStatus) throws InternalException;

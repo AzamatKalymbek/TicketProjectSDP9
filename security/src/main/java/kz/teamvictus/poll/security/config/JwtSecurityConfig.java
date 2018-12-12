@@ -61,8 +61,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setAuthenticationManager(authenticationManager());
         filter.setAuthenticationSuccessHandler(successHandler);
         filter.setRequiresAuthenticationRequestMatcher(new OrRequestMatcher(
-                new AntPathRequestMatcher("/user/**"),
-                new AntPathRequestMatcher("/admin/**")
+                new AntPathRequestMatcher("/client/**"),
+                new AntPathRequestMatcher("/expert/**")
         ));
         return filter;
     }
@@ -82,8 +82,10 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/choices").permitAll()
-                .antMatchers("/user/**").hasAnyAuthority("USER")
-                .antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .antMatchers("/client/**").permitAll()
+                .antMatchers("/expert/**").permitAll()
+                .antMatchers("/message/**").permitAll()
+                .antMatchers("/push/**").permitAll()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint);
 

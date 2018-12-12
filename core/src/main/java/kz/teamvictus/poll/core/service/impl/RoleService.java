@@ -1,8 +1,6 @@
 package kz.teamvictus.poll.core.service.impl;
 
-import kz.teamvictus.poll.core.model.OfferUser;
 import kz.teamvictus.poll.core.model.Role;
-import kz.teamvictus.poll.core.repository.OfferUserJpaRepo;
 import kz.teamvictus.poll.core.repository.RoleJpaRepo;
 import kz.teamvictus.poll.core.service.IRoleService;
 import kz.teamvictus.utils.error.ErrorCode;
@@ -30,6 +28,16 @@ public class RoleService implements IRoleService {
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getRoleById", e);
+      }
+   }
+
+   @Override
+   public Role getRoleByCode(String code) throws InternalException {
+      try {
+         return roleJpaRepo.findRoleByCode(code);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getRoleByCode", e);
       }
    }
 

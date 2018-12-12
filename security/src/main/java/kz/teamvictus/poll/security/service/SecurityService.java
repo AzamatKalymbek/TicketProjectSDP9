@@ -44,9 +44,12 @@ public class SecurityService implements ISecurityService {
             List<GrantedAuthority> authorityList = (List<GrantedAuthority>) jwtUserDetails.getGrantedAuthorityList();
 
             HashMap map = new HashMap();
-            map.put("userId", user.getId());
+            map.put("id", user.getId());
             map.put("username", user.getUsername());
-            map.put("authorityList", authorityList);
+            map.put("name", user.getName());
+            map.put("surname", user.getSurname());
+            map.put("categoryId", user.getCategoryId());
+            map.put("role", authorityList.size() > 0 ? authorityList.get(0).getAuthority() : null);
 
             return map;
 

@@ -10,6 +10,7 @@ import java.util.List;
 public interface OfferJpaRepo extends JpaRepository<Offer, Long> {
 
    Offer findByUserIdAndTicketId(Long userId, Long ticketId);
+   Offer findOfferByTicketIdAndOfferStatusId(Long ticketId, Long statusId);
    List<Offer> findByTicketId(Long ticketId);
    List<Offer> findAllByUserIdAndOfferStatusId(Long userId, Long statusId);
 }

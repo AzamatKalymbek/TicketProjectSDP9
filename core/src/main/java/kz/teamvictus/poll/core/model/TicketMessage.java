@@ -25,7 +25,11 @@ public class TicketMessage {
 
    @Basic
    @Column(name = "sender_id")
-   private Integer senderId;
+   private Long senderId;
+
+   @Basic
+   @Column(name = "reciever_id")
+   private Long recieverId;
 
    @Basic
    @Column(name = "text")

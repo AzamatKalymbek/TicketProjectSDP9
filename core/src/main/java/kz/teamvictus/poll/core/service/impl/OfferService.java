@@ -1,8 +1,11 @@
 package kz.teamvictus.poll.core.service.impl;
 
 import kz.teamvictus.poll.core.model.Offer;
+import kz.teamvictus.poll.core.model.Ticket;
 import kz.teamvictus.poll.core.repository.OfferJpaRepo;
+import kz.teamvictus.poll.core.repository.TicketJpaRepo;
 import kz.teamvictus.poll.core.service.IOfferService;
+import kz.teamvictus.poll.core.service.IPushNotificationService;
 import kz.teamvictus.poll.core.service.IUserTokenService;
 import kz.teamvictus.utils.error.ErrorCode;
 import kz.teamvictus.utils.error.InternalException;
@@ -23,6 +26,10 @@ public class OfferService implements IOfferService {
    IUserTokenService iUserTokenService;
    @Autowired
    private OfferJpaRepo offerJpaRepo;
+   @Autowired
+   private TicketJpaRepo ticketJpaRepo;
+   @Autowired
+   private IPushNotificationService pushNotificationService;
 
    @Override
    public Offer getOfferById(Long id) throws InternalException {
@@ -79,6 +86,8 @@ public class OfferService implements IOfferService {
    @Override
    public Offer updateOffer(Long id, Offer offer) throws InternalException {
       try {
+         pushNotificationService.sendInfoToUser(offer.getUserId(), "Your offer was accepted!");
+
          Offer currentOffer = offerJpaRepo.getOne(id);
          currentOffer.setId(offer.getId());
          currentOffer.setDuration(offer.getDuration());
@@ -96,10 +105,32 @@ public class OfferService implements IOfferService {
    @Override
    public Offer addOffer(Offer offer) throws InternalException {
       try {
+         Ticket ticket = ticketJpaRepo.findOne(offer.getTicketId());
+         pushNotificationService.sendInfoToUser(ticket.getUserId(), "You have new offer!");
          return offerJpaRepo.saveAndFlush(offer);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:addOffer", e);
+      }
+   }
+
+   @Override
+   public Offer offerTicket(String userToken, Offer offer) throws InternalException {
+      try {
+         return offerJpaRepo.saveAndFlush(offer);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:offerTicket", e);
+      }
+   }
+
+   @Override
+   public Offer getOfferByTicketIdAndStatusId(Long ticketId, Long status) throws InternalException {
+      try {
+         return offerJpaRepo.findOfferByTicketIdAndOfferStatusId(ticketId, status);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getOfferByTicketIdAndStatusId", e);
       }
    }
 }

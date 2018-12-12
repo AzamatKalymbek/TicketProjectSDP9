@@ -42,11 +42,11 @@ public class User {
 
    @Basic
    @Column(name = "category_id")
-   private Integer categoryId;
+   private Long categoryId;
 
    @Basic
    @Column(name = "role_id")
-   private Integer roleId;
+   private Long roleId;
 
    @Basic
    @Column(name = "is_disabled")

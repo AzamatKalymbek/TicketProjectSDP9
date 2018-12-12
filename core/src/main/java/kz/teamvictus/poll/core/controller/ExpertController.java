@@ -1,6 +1,7 @@
 package kz.teamvictus.poll.core.controller;
 
 
+import kz.teamvictus.poll.core.model.Offer;
 import kz.teamvictus.poll.core.model.Ticket;
 import kz.teamvictus.poll.core.model.TicketMessage;
 import kz.teamvictus.poll.core.service.IOfferService;
@@ -39,10 +40,19 @@ public class ExpertController extends CommonService {
 
    // - эксперт берёт список тикетов по ticket_status_id (GET /expert/ticket?status=)
    @GetMapping("/ticket")
-   public ResponseEntity<?> getTicketListByStatusId(HttpServletRequest req, @RequestParam(value = "status") Long status){
+   public ResponseEntity<?> getTicketListByStatusId(@RequestParam(value = "status") Long status){
       try {
-         String userToken = req.getHeader("Authorization").replace(TOKEN_PREFIX,"");
-         return builder(success(iTicketService.getAllTicketByUserIdAndTicketStatusId(userToken, status)));
+         return builder(success(iTicketService.getAllTicketByTicketStatusId(status)));
+      } catch (InternalException e) {
+         LOGGER.error(e.getMessage(), e);
+         return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));
+      }
+   }
+
+   @PostMapping("/offer")
+   public ResponseEntity<?> offerTicket(@Valid @RequestBody Offer offer){
+      try {
+         return builder(success(iOfferService.addOffer(offer)));
       } catch (InternalException e) {
          LOGGER.error(e.getMessage(), e);
          return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));
@@ -83,22 +93,11 @@ public class ExpertController extends CommonService {
       }
    }
 
-   // - эксперт берет список сообщении по ticket_id (GET /expert/message?ticket=)
-   @GetMapping("/message")
-   public ResponseEntity<?> getTicketMessageList(@RequestParam(value = "ticket") Long ticket){
+   @GetMapping("/ticket/{ticketId}/offer")
+   public ResponseEntity<?> getExpertOffer(@PathVariable(value = "ticketId") Long ticketId,
+                                           @RequestParam(value = "status") Long status){
       try {
-         return builder(success(iTicketMessageService.getAllTicketMessageByTicketId(ticket)));
-      } catch (InternalException e) {
-         LOGGER.error(e.getMessage(), e);
-         return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));
-      }
-   }
-
-   // - эксперт создает сообщение (POST /expert/message)
-   @PostMapping("/message")
-   public ResponseEntity<?> saveTicketMessage(@Valid @RequestBody TicketMessage ticketMessage){
-      try {
-         return builder(success(iTicketMessageService.addTicketMessage(ticketMessage)));
+         return builder(success(iOfferService.getOfferByTicketIdAndStatusId(ticketId, status)));
       } catch (InternalException e) {
          LOGGER.error(e.getMessage(), e);
          return builder(errorWithDescription(e.getErrorRef(), e.getMessage()));

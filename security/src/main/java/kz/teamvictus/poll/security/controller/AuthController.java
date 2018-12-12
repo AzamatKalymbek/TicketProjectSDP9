@@ -47,7 +47,7 @@ public class AuthController extends CommonService {
         }
     }
 
-    @GetMapping("/session")
+    @GetMapping("/profile")
     public ResponseEntity<?> session(HttpServletRequest req) {
         try {
             String userToken = req.getHeader("Authorization").replace(TOKEN_PREFIX,"");

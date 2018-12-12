@@ -4,6 +4,7 @@ import kz.teamvictus.poll.core.model.Ticket;
 import kz.teamvictus.poll.core.model.TicketMessage;
 import kz.teamvictus.poll.core.repository.TicketJpaRepo;
 import kz.teamvictus.poll.core.repository.TicketMessageJpaRepo;
+import kz.teamvictus.poll.core.service.IPushNotificationService;
 import kz.teamvictus.poll.core.service.ITicketMessageService;
 import kz.teamvictus.poll.core.service.ITicketService;
 import kz.teamvictus.utils.error.ErrorCode;
@@ -23,6 +24,10 @@ public class TicketMessageService implements ITicketMessageService {
 
    @Autowired
    private TicketMessageJpaRepo ticketMessageJpaRepo;
+   @Autowired
+   private TicketJpaRepo ticketJpaRepo;
+   @Autowired
+   private IPushNotificationService pushNotificationService;
 
    @Override
    public TicketMessage getTicketMessageById(Long id) throws InternalException {
@@ -73,6 +78,8 @@ public class TicketMessageService implements ITicketMessageService {
    @Override
    public TicketMessage addTicketMessage(TicketMessage ticketMessage) throws InternalException {
       try {
+         Ticket ticket = ticketJpaRepo.findOne(ticketMessage.getTicketId());
+         pushNotificationService.sendTicketMessageToUser(ticket, ticketMessage.getRecieverId());
          return ticketMessageJpaRepo.saveAndFlush(ticketMessage);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);

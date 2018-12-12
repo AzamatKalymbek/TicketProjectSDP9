@@ -44,6 +44,16 @@ public class UserService implements IUserService {
    }
 
    @Override
+   public List<User> getExperts() throws InternalException {
+      try {
+         return userJpaRepo.findAllByRoleId(Long.parseLong("2"));
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getUserByUsername", e);
+      }
+   }
+
+   @Override
    public List<User> getAllUser() throws InternalException {
       try {
          return userJpaRepo.findAll();

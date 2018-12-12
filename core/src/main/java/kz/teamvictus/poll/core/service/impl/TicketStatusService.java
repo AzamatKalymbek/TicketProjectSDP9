@@ -32,6 +32,16 @@ public class TicketStatusService implements ITicketStatusService {
    }
 
    @Override
+   public TicketStatus getTicketStatusByCode(String code) throws InternalException {
+      try {
+         return ticketStatusJpaRepo.findTicketStatusByCode(code);
+      } catch (Exception e) {
+         LOGGER.error(e.getMessage(), e);
+         throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getTicketStatusByCode", e);
+      }
+   }
+
+   @Override
    public List<TicketStatus> getAllTicketStatus() throws InternalException {
       try {
          return ticketStatusJpaRepo.findAll();

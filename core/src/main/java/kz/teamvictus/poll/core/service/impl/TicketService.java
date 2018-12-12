@@ -1,9 +1,10 @@
 package kz.teamvictus.poll.core.service.impl;
 
 import kz.teamvictus.poll.core.model.Ticket;
+import kz.teamvictus.poll.core.model.TicketStatus;
+import kz.teamvictus.poll.core.model.User;
 import kz.teamvictus.poll.core.repository.TicketJpaRepo;
-import kz.teamvictus.poll.core.service.ITicketService;
-import kz.teamvictus.poll.core.service.IUserTokenService;
+import kz.teamvictus.poll.core.service.*;
 import kz.teamvictus.utils.error.ErrorCode;
 import kz.teamvictus.utils.error.InternalException;
 import kz.teamvictus.utils.error.InternalExceptionHelper;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -23,11 +25,15 @@ public class TicketService implements ITicketService {
    private IUserTokenService iUserTokenService;
    @Autowired
    private TicketJpaRepo ticketJpaRepo;
+   @Autowired
+   private IUserService userService;
+   @Autowired
+   private IPushNotificationService pushNotificationService;
 
    @Override
    public Ticket getTicketById(Long id) throws InternalException {
       try {
-         return ticketJpaRepo.getOne(id);
+         return ticketJpaRepo.findOne(id);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getTicketById", e);
@@ -49,7 +55,7 @@ public class TicketService implements ITicketService {
       try {
          Long userId = iUserTokenService.getUserIdFromToken(userToken);
 
-         return ticketJpaRepo.findAllByUserId(Math.toIntExact(userId));
+         return ticketJpaRepo.findAllByUserId(userId);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicketByUserId", e);
@@ -57,11 +63,9 @@ public class TicketService implements ITicketService {
    }
 
    @Override
-   public List<Ticket> getAllTicketByUserIdAndTicketStatusId(String userToken, Long statusId) throws InternalException {
+   public List<Ticket> getAllTicketByTicketStatusId(Long statusId) throws InternalException {
       try {
-         Long userId = iUserTokenService.getUserIdFromToken(userToken);
-
-         return ticketJpaRepo.findAllByUserIdAndTicketStatusId(Math.toIntExact(userId), statusId);
+         return ticketJpaRepo.findAllByTicketStatusId(statusId);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getAllTicketByUserIdAndTicketStatusId", e);
@@ -73,7 +77,7 @@ public class TicketService implements ITicketService {
       try {
          Long userId = iUserTokenService.getUserIdFromToken(userToken);
 
-         return ticketJpaRepo.findByUserIdAndId(Math.toIntExact(userId), ticketId);
+         return ticketJpaRepo.findByUserIdAndId(userId, ticketId);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);
          throw IE_HELPER.generate(ErrorCode.ErrorCodes.SYSTEM_ERROR, "Exception:getTicketByIdAndUserId", e);
@@ -99,8 +103,12 @@ public class TicketService implements ITicketService {
    }
 
    @Override
-   public Ticket addTicket(Ticket ticket) throws InternalException {
+   public Ticket addTicket(String userToken, Ticket ticket) throws InternalException {
       try {
+         List<User> users = userService.getExperts();
+         for (User user: users) {
+            pushNotificationService.sendInfoToUser(user.getId(), "New ticket for experts!");
+         }
          return ticketJpaRepo.saveAndFlush(ticket);
       } catch (Exception e) {
          LOGGER.error(e.getMessage(), e);

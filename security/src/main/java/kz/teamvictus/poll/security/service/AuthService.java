@@ -63,7 +63,7 @@ public class AuthService implements IAuthService {
                     JwtUser jwtUser = new JwtUser();
                     jwtUser.setId(user.getId());
                     jwtUser.setUsername(user.getUsername());
-                    jwtUser.setRole(roleService.getRoleById(Long.valueOf(user.getRoleId())).getName());
+                    jwtUser.setRole(roleService.getRoleById(Long.valueOf(user.getRoleId())).getCode());
                     String token = jwtGenerator.generate(jwtUser);
 
                     JwtUserDetails jwtUserDetails = new JwtUserDetails(
