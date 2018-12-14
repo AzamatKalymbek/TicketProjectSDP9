@@ -1,5 +1,7 @@
 package kz.teamvictus.poll.core.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kz.teamvictus.poll.core.model.TicketMessage;
 import kz.teamvictus.poll.core.service.IOfferService;
 import kz.teamvictus.poll.core.service.ITicketMessageService;
@@ -17,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/message")
+@Api(value = "Message REST API controller", description = "[get and save operations]")
 public class MessageController extends CommonService {
    private static final Logger LOGGER = LoggerFactory.getLogger(MessageController.class);
    private final InternalExceptionHelper IE_HELPER = new InternalExceptionHelper(this.toString());
@@ -30,7 +33,7 @@ public class MessageController extends CommonService {
    @Autowired
    ITicketMessageService iTicketMessageService;
 
-   // - эксперт берет список сообщении по ticket_id (GET /expert/message?ticket=)
+   @ApiOperation(value = " - эксперт берет список сообщении по ticket_id (GET /expert/message?ticket=)")
    @GetMapping()
    public ResponseEntity<?> getTicketMessageList(@RequestParam(value = "ticket") Long ticket){
       try {
@@ -41,7 +44,7 @@ public class MessageController extends CommonService {
       }
    }
 
-   // - эксперт создает сообщение (POST /expert/message)
+   @ApiOperation(value = " - эксперт создает сообщение (POST /expert/message)")
    @PostMapping()
    public ResponseEntity<?> saveTicketMessage(@Valid @RequestBody TicketMessage ticketMessage){
       try {

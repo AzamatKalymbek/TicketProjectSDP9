@@ -1,6 +1,8 @@
 package kz.teamvictus.poll.core.controller;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kz.teamvictus.poll.core.model.Offer;
 import kz.teamvictus.poll.core.model.Ticket;
 import kz.teamvictus.poll.core.service.IOfferService;
@@ -22,6 +24,7 @@ import static kz.teamvictus.utils.Constants.TOKEN_PREFIX;
 // ClientController: /client - основной маршрут
 @RestController
 @RequestMapping("/client")
+@Api(value = "Client REST API controller", description = "shows client operations [read, create, update]")
 public class ClientController extends CommonService {
 
    private static final Logger LOGGER = LoggerFactory.getLogger(ClientController.class);
@@ -29,11 +32,10 @@ public class ClientController extends CommonService {
 
    @Autowired
    ITicketService iTicketService;
-
    @Autowired
    IOfferService offerService;
 
-   // - список тикетов клиента (GET /client/ticket/)
+   @ApiOperation(value = " - список тикетов клиента (GET /client/ticket/)")
    @GetMapping("/ticket")
    public ResponseEntity<?> getTicketList(HttpServletRequest req){
       try {
@@ -45,7 +47,7 @@ public class ClientController extends CommonService {
       }
    }
 
-   // - клиент берёт тикет (GET /client/ticket/{ticketId})
+   @ApiOperation(value = " - клиент берёт тикет (GET /client/ticket/{ticketId})")
    @GetMapping("/ticket/{ticketId}")
    public ResponseEntity<?> getTicket(HttpServletRequest req, @PathVariable(value = "ticketId") Long ticketId){
       try {
@@ -57,7 +59,7 @@ public class ClientController extends CommonService {
       }
    }
 
-   // - клиент создает тикет (POST /client/ticket/)
+   @ApiOperation(value = " - клиент создает тикет (POST /client/ticket/)")
    @PostMapping("/ticket")
    public ResponseEntity<?> saveTicket(HttpServletRequest req, @Valid @RequestBody Ticket ticket){
       try {
@@ -69,7 +71,7 @@ public class ClientController extends CommonService {
       }
    }
 
-   // - клиент обновляет тикет (PATCH /client/ticket/)
+   @ApiOperation(value = " - клиент обновляет тикет (PATCH /client/ticket/)")
    @PatchMapping("/ticket")
    public ResponseEntity<?> updateTicket(@Valid @RequestBody Ticket ticket){
       try {
@@ -80,7 +82,7 @@ public class ClientController extends CommonService {
       }
    }
 
-   // - клиент берёт список офферов для тикета (GET /client/ticket/{ticketId}/offer)
+   @ApiOperation(value = " - клиент берёт список предложения для тикета (GET /client/ticket/{ticketId}/offer)")
    @GetMapping("/ticket/{ticketId}/offer")
    public ResponseEntity<?> getClientOffer(@PathVariable(value = "ticketId") Long ticketId, Long status){
       try {
@@ -94,7 +96,7 @@ public class ClientController extends CommonService {
       }
    }
 
-   // - клиент обновляет оффер (PATCH /client/ticket/{ticketId}/offer)
+   @ApiOperation(value = " - клиент обновляет предложение (PATCH /client/ticket/{ticketId}/offer)")
    @PatchMapping("/ticket/offer")
    public ResponseEntity<?> updateClientOffer(@Valid @RequestBody Offer offer){
       try {

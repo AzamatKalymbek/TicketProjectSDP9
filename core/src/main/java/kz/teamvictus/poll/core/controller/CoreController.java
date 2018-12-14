@@ -1,5 +1,7 @@
 package kz.teamvictus.poll.core.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kz.teamvictus.poll.core.service.IUserService;
 import kz.teamvictus.utils.CommonService;
 import kz.teamvictus.utils.error.InternalException;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/core")
+@Api(value = "Core REST API controller", description = "[Base controller]")
 public class CoreController extends CommonService {
 
    private static final Logger LOGGER = LoggerFactory.getLogger(CoreController.class);
@@ -20,6 +23,7 @@ public class CoreController extends CommonService {
    @Autowired
    private IUserService iUserService;
 
+   @ApiOperation(value = " - список всех юзеров")
    @GetMapping("/user")
    public ResponseEntity<?> getUserList() {
       try {

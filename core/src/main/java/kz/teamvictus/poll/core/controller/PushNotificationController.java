@@ -1,5 +1,7 @@
 package kz.teamvictus.poll.core.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kz.teamvictus.poll.core.service.IOfferService;
 import kz.teamvictus.poll.core.service.IPushNotificationService;
 import kz.teamvictus.poll.core.service.ITicketMessageService;
@@ -19,6 +21,7 @@ import static kz.teamvictus.utils.Constants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/push")
+@Api(value = "Push Notification REST API controller", description = "[add and delete players]")
 public class PushNotificationController extends CommonService {
    private static final Logger LOGGER = LoggerFactory.getLogger(PushNotificationController.class);
    private final InternalExceptionHelper IE_HELPER = new InternalExceptionHelper(this.toString());
@@ -26,6 +29,7 @@ public class PushNotificationController extends CommonService {
    @Autowired
    IPushNotificationService pushNotificationService;
 
+   @ApiOperation(value = " - добавляет player")
    @PostMapping("/{playerId}")
    public ResponseEntity<?> addPlayer(HttpServletRequest req, @PathVariable(value = "playerId") String playerId){
       try {
@@ -37,6 +41,7 @@ public class PushNotificationController extends CommonService {
       }
    }
 
+   @ApiOperation(value = " - удаляет player")
    @DeleteMapping("/{playerId}")
    public ResponseEntity<?> deletePlayer(HttpServletRequest req, @PathVariable(value = "playerId") String playerId){
       try {

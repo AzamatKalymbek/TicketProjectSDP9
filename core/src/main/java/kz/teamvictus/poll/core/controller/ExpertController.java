@@ -1,9 +1,9 @@
 package kz.teamvictus.poll.core.controller;
 
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import kz.teamvictus.poll.core.model.Offer;
 import kz.teamvictus.poll.core.model.Ticket;
-import kz.teamvictus.poll.core.model.TicketMessage;
 import kz.teamvictus.poll.core.service.IOfferService;
 import kz.teamvictus.poll.core.service.ITicketMessageService;
 import kz.teamvictus.poll.core.service.ITicketService;
@@ -18,13 +18,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.websocket.server.PathParam;
 
 import static kz.teamvictus.utils.Constants.TOKEN_PREFIX;
 
-// ExpertController: /expert - основной маршрут
 @RestController
 @RequestMapping("/expert")
+@Api(value = "Expert REST API controller", description = "[expert - основной маршрут]")
 public class ExpertController extends CommonService {
    private static final Logger LOGGER = LoggerFactory.getLogger(ExpertController.class);
    private final InternalExceptionHelper IE_HELPER = new InternalExceptionHelper(this.toString());
@@ -38,7 +37,7 @@ public class ExpertController extends CommonService {
    @Autowired
    ITicketMessageService iTicketMessageService;
 
-   // - эксперт берёт список тикетов по ticket_status_id (GET /expert/ticket?status=)
+   @ApiOperation(value = " - эксперт берёт список тикетов по ticket_status_id (GET /expert/ticket?status=)")
    @GetMapping("/ticket")
    public ResponseEntity<?> getTicketListByStatusId(@RequestParam(value = "status") Long status){
       try {
@@ -49,6 +48,7 @@ public class ExpertController extends CommonService {
       }
    }
 
+   @ApiOperation(value = " - эксперт берёт список тикетов по ticket_status_id (GET /expert/ticket?status=)")
    @PostMapping("/offer")
    public ResponseEntity<?> offerTicket(@Valid @RequestBody Offer offer){
       try {
@@ -59,7 +59,7 @@ public class ExpertController extends CommonService {
       }
    }
 
-   // - эксперт берет тикет (GET /expert/ticket/{ticketId})
+   @ApiOperation(value = " - эксперт берет тикет (GET /expert/ticket/{ticketId})")
    @GetMapping("/ticket/{ticketId}")
    public ResponseEntity<?> getTicket( @PathVariable(value = "ticketId") Long ticketId){
       try {
@@ -70,7 +70,7 @@ public class ExpertController extends CommonService {
       }
    }
 
-   // - эксперт обновляет тикет (PATCH /expert/ticket/)
+   @ApiOperation(value = " - эксперт обновляет тикет (PATCH /expert/ticket/)")
    @PatchMapping("/ticket")
    public ResponseEntity<?> updateTicket(@Valid @RequestBody Ticket ticket){
       try {
@@ -81,7 +81,7 @@ public class ExpertController extends CommonService {
       }
    }
 
-   // - эксперт берет список СВОИХ офферов по offer_status_id (GET /expert/offer?status=)
+   @ApiOperation(value = " - эксперт берет список СВОИХ офферов по offer_status_id (GET /expert/offer?status=)")
    @GetMapping("/offer")
    public ResponseEntity<?> getExpertOfferList(HttpServletRequest req, @RequestParam(value = "status") Long status){
       try {
@@ -93,6 +93,7 @@ public class ExpertController extends CommonService {
       }
    }
 
+   @ApiOperation(value = " - эксперт берёт список предложения по ticket_status_id (GET /expert/ticket?status=)")
    @GetMapping("/ticket/{ticketId}/offer")
    public ResponseEntity<?> getExpertOffer(@PathVariable(value = "ticketId") Long ticketId,
                                            @RequestParam(value = "status") Long status){

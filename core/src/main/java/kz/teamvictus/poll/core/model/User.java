@@ -1,5 +1,6 @@
 package kz.teamvictus.poll.core.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,14 +19,17 @@ public class User {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "id", nullable = false,updatable=false, insertable=true)
+   @ApiModelProperty(notes = "id of the user(client, expert)")
    private Long id;
 
    @Basic
    @Column(name = "email")
+   @ApiModelProperty(notes = "email of the user(client, expert)")
    private String email;
 
    @Basic
    @Column(name = "username")
+   @ApiModelProperty(notes = "username of the user(client, expert)")
    private String username;
 
    @Basic
@@ -34,10 +38,12 @@ public class User {
 
    @Basic
    @Column(name = "name")
+   @ApiModelProperty(notes = "name of the user(client, expert)")
    private String name;
 
    @Basic
    @Column(name = "surname")
+   @ApiModelProperty(notes = "surname of the user(client, expert)")
    private String surname;
 
    @Basic
