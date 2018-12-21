@@ -82,10 +82,10 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/**").permitAll()
                 .antMatchers("/choices").permitAll()
-                .antMatchers("/client/**").permitAll()
-                .antMatchers("/expert/**").permitAll()
-                .antMatchers("/message/**").permitAll()
-                .antMatchers("/push/**").permitAll()
+                .antMatchers("/client/**").hasAnyAuthority("client")
+                .antMatchers("/expert/**").hasAnyAuthority("expert")
+                .antMatchers("/message/**").hasAnyAuthority("client", "expert")
+                .antMatchers("/push/**").hasAnyAuthority("client", "expert")
                 .and()
                 .exceptionHandling().authenticationEntryPoint(entryPoint);
 
